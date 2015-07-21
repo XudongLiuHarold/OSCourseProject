@@ -28,9 +28,9 @@ PRIVATE	t_bool		ctrl_r;			/* l ctrl state		*/
 PRIVATE	t_bool		caps_lock;		/* Caps Lock		*/
 PRIVATE	t_bool		num_lock;		/* Num Lock		*/
 PRIVATE	t_bool		scroll_lock;		/* Scroll Lock		*/
-PRIVATE	int		column		= 0;	/* keyrow[column] ½«ÊÇ keymap ÖÐÄ³Ò»¸öÖµ */
+PRIVATE	int		column		= 0;	/* keyrow[column] å°†æ˜¯ keymap ä¸­æŸä¸€ä¸ªå€¼ */
 
-/* ±¾ÎÄ¼þÄÚº¯ÊýÉùÃ÷ */
+/* æœ¬æ–‡ä»¶å†…å‡½æ•°å£°æ˜Ž */
 PRIVATE t_8	get_byte_from_kb_buf();
 PRIVATE void	set_leds();
 PRIVATE void	kb_wait();
@@ -68,8 +68,8 @@ PUBLIC void init_keyboard()
 
 	set_leds();
 
-	put_irq_handler(KEYBOARD_IRQ, keyboard_handler);	/* Éè¶¨¼üÅÌÖÐ¶Ï´¦Àí³ÌÐò */
-	enable_irq(KEYBOARD_IRQ);				/* ¿ª¼üÅÌÖÐ¶Ï */
+	put_irq_handler(KEYBOARD_IRQ, keyboard_handler);	/* è®¾å®šé”®ç›˜ä¸­æ–­å¤„ç†ç¨‹åº */
+	enable_irq(KEYBOARD_IRQ);				/* å¼€é”®ç›˜ä¸­æ–­ */
 }
 
 
@@ -81,15 +81,15 @@ PUBLIC void keyboard_read(TTY* p_tty)
 	t_8	scan_code;
 	t_bool	make;	/* TRUE : make  */
 			/* FALSE: break */
-	t_32	key = 0;/* ÓÃÒ»¸öÕûÐÍÀ´±íÊ¾Ò»¸ö¼ü¡£ */
-			/* ±ÈÈç£¬Èç¹û Home ±»°´ÏÂ£¬Ôò key Öµ½«Îª¶¨ÒåÔÚ keyboard.h ÖÐµÄ 'HOME'¡£*/
-	t_32*	keyrow;	/* Ö¸Ïò keymap[] µÄÄ³Ò»ÐÐ */
+	t_32	key = 0;/* ç”¨ä¸€ä¸ªæ•´åž‹æ¥è¡¨ç¤ºä¸€ä¸ªé”®ã€‚ */
+			/* æ¯”å¦‚ï¼Œå¦‚æžœ Home è¢«æŒ‰ä¸‹ï¼Œåˆ™ key å€¼å°†ä¸ºå®šä¹‰åœ¨ keyboard.h ä¸­çš„ 'HOME'ã€‚*/
+	t_32*	keyrow;	/* æŒ‡å‘ keymap[] çš„æŸä¸€è¡Œ */
 
 	if(kb_in.count > 0){
 		code_with_E0 = FALSE;
 		scan_code = get_byte_from_kb_buf();
 
-		/* ÏÂÃæ¿ªÊ¼½âÎöÉ¨ÃèÂë */
+		/* ä¸‹é¢å¼€å§‹è§£æžæ‰«æç  */
 		if (scan_code == 0xE1) {
 			int i;
 			t_8 pausebreak_scan_code[] = {0xE1, 0x1D, 0x45, 0xE1, 0x9D, 0xC5};
@@ -108,7 +108,7 @@ PUBLIC void keyboard_read(TTY* p_tty)
 			code_with_E0 = TRUE;
 			scan_code = get_byte_from_kb_buf();
 
-			/* PrintScreen ±»°´ÏÂ */
+			/* PrintScreen è¢«æŒ‰ä¸‹ */
 			if (scan_code == 0x2A) {
 				code_with_E0 = FALSE;
 				if ((scan_code = get_byte_from_kb_buf()) == 0xE0) {
@@ -119,7 +119,7 @@ PUBLIC void keyboard_read(TTY* p_tty)
 					}
 				}
 			}
-			/* PrintScreen ±»ÊÍ·Å */
+			/* PrintScreen è¢«é‡Šæ”¾ */
 			else if (scan_code == 0xB7) {
 				code_with_E0 = FALSE;
 				if ((scan_code = get_byte_from_kb_buf()) == 0xE0) {
@@ -130,12 +130,12 @@ PUBLIC void keyboard_read(TTY* p_tty)
 					}
 				}
 			}
-		} /* Èç¹û²»ÊÇ PrintScreen¡£Ôò´ËÊ± scan_code Îª 0xE0 ½ô¸úµÄÄÇ¸öÖµ¡£ */
+		} /* å¦‚æžœä¸æ˜¯ PrintScreenã€‚åˆ™æ­¤æ—¶ scan_code ä¸º 0xE0 ç´§è·Ÿçš„é‚£ä¸ªå€¼ã€‚ */
 		if ((key != PAUSEBREAK) && (key != PRINTSCREEN)) {
-			/* Ê×ÏÈÅÐ¶ÏMake Code »¹ÊÇ Break Code */
+			/* é¦–å…ˆåˆ¤æ–­Make Code è¿˜æ˜¯ Break Code */
 			make = (scan_code & FLAG_BREAK ? FALSE : TRUE);
 			
-			/* ÏÈ¶¨Î»µ½ keymap ÖÐµÄÐÐ */
+			/* å…ˆå®šä½åˆ° keymap ä¸­çš„è¡Œ */
 			keyrow = &keymap[(scan_code & 0x7F) * MAP_COLS];
 
 			column = 0;
@@ -198,10 +198,10 @@ PUBLIC void keyboard_read(TTY* p_tty)
 			}
 		}
 
-		if(make){ /* ºöÂÔ Break Code */
+		if(make){ /* å¿½ç•¥ Break Code */
 			t_bool pad = FALSE;
 
-			/* Ê×ÏÈ´¦ÀíÐ¡¼üÅÌ */
+			/* é¦–å…ˆå¤„ç†å°é”®ç›˜ */
 			if ((key >= PAD_SLASH) && (key <= PAD_9)) {
 				pad = TRUE;
 				switch(key) {	/* '/', '*', '-', '+', and 'Enter' in num pad  */
@@ -285,11 +285,11 @@ PUBLIC void keyboard_read(TTY* p_tty)
 /*======================================================================*
                            get_byte_from_kb_buf
  *======================================================================*/
-PRIVATE t_8 get_byte_from_kb_buf()	/* ´Ó¼üÅÌ»º³åÇøÖÐ¶ÁÈ¡ÏÂÒ»¸ö×Ö½Ú */
+PRIVATE t_8 get_byte_from_kb_buf()	/* ä»Žé”®ç›˜ç¼“å†²åŒºä¸­è¯»å–ä¸‹ä¸€ä¸ªå­—èŠ‚ */
 {
 	t_8	scan_code;
 
-	while (kb_in.count <= 0) {}	/* µÈ´ýÏÂÒ»¸ö×Ö½Úµ½À´ */
+	while (kb_in.count <= 0) {}	/* ç­‰å¾…ä¸‹ä¸€ä¸ªå­—èŠ‚åˆ°æ¥ */
 
 	disable_int();
 	scan_code = *(kb_in.p_tail);
@@ -313,7 +313,7 @@ PRIVATE t_8 get_byte_from_kb_buf()	/* ´Ó¼üÅÌ»º³åÇøÖÐ¶ÁÈ¡ÏÂÒ»¸ö×Ö½Ú */
 /*======================================================================*
                                  kb_wait
  *======================================================================*/
-PRIVATE void kb_wait()	/* µÈ´ý 8042 µÄÊäÈë»º³åÇø¿Õ */
+PRIVATE void kb_wait()	/* ç­‰å¾… 8042 çš„è¾“å…¥ç¼“å†²åŒºç©º */
 {
 	t_8 kb_stat;
 

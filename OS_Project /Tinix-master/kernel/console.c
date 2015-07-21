@@ -6,8 +6,8 @@
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 /*
-	�س���:	�ѹ���Ƶ���һ��
-	���м�:	�ѹ��ǰ������һ��
+	回车键:	把光标移到第一列
+	换行键:	把光标前进到下一行
 */
 
 
@@ -23,7 +23,7 @@
 #include "proto.h"
 
 
-/* ���ļ��ں������� */
+/* 本文件内函数声明 */
 PRIVATE void	set_cursor(unsigned int position);
 PRIVATE void	set_video_start_addr(t_32 addr);
 PRIVATE void	flush(CONSOLE* p_con);
@@ -37,17 +37,17 @@ PUBLIC void init_screen(TTY* p_tty)
 	int nr_tty = p_tty - tty_table;
 	p_tty->p_console = console_table + nr_tty;
 
-	int v_mem_size = V_MEM_SIZE >> 1;	/* �Դ��ܴ�С (in WORD) */
+	int v_mem_size = V_MEM_SIZE >> 1;	/* 显存总大小 (in WORD) */
 
-	int con_v_mem_size			= v_mem_size / NR_CONSOLES;		/* ÿ������̨ռ���Դ��С		(in WORD) */
-	p_tty->p_console->original_addr		= nr_tty * con_v_mem_size;		/* ��ǰ����̨ռ���Դ濪ʼ��ַ		(in WORD) */
-	p_tty->p_console->v_mem_limit		= con_v_mem_size / SCREEN_WIDTH * SCREEN_WIDTH;			/* ��ǰ����̨ռ���Դ��С		(in WORD) */
-	p_tty->p_console->current_start_addr	= p_tty->p_console->original_addr;	/* ��ǰ����̨��ʾ�����Դ��ʲôλ��	(in WORD) */
+	int con_v_mem_size			= v_mem_size / NR_CONSOLES;		/* 每个控制台占的显存大小		(in WORD) */
+	p_tty->p_console->original_addr		= nr_tty * con_v_mem_size;		/* 当前控制台占的显存开始地址		(in WORD) */
+	p_tty->p_console->v_mem_limit		= con_v_mem_size / SCREEN_WIDTH * SCREEN_WIDTH;			/* 当前控制台占的显存大小		(in WORD) */
+	p_tty->p_console->current_start_addr	= p_tty->p_console->original_addr;	/* 当前控制台显示到了显存的什么位置	(in WORD) */
 
-	p_tty->p_console->cursor = p_tty->p_console->original_addr;	/* Ĭ�Ϲ��λ�����ʼ�� */
+	p_tty->p_console->cursor = p_tty->p_console->original_addr;	/* 默认光标位置在最开始处 */
 
 	if (nr_tty == 0) {
-		p_tty->p_console->cursor = disp_pos / 2;	/* ��һ������̨����ԭ���Ĺ��λ�� */
+		p_tty->p_console->cursor = disp_pos / 2;	/* 第一个控制台延用原来的光标位置 */
 		disp_pos = 0;
 	}
 	else {
@@ -151,12 +151,12 @@ PUBLIC void select_console(int nr_console)	/* 0 ~ (NR_CONSOLES - 1) */
 /*======================================================================*
                            scroll_screen
  *----------------------------------------------------------------------*
- ����.
+ 滚屏.
  *----------------------------------------------------------------------*
  direction:
-	SCROLL_SCREEN_UP	: ���Ϲ���
-	SCROLL_SCREEN_DOWN	: ���¹���
-	����			: ��������
+	SCROLL_SCREEN_UP	: 向上滚屏
+	SCROLL_SCREEN_DOWN	: 向下滚屏
+	其它			: 不做处理
  *======================================================================*/
 PUBLIC void scroll_screen(CONSOLE* p_con, int direction)
 {

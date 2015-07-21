@@ -23,18 +23,18 @@ PUBLIC void cstart()
 {
 	//disp_str("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n-----\"cstart\" begins-----\n");
 
-	// ½« LOADER ÖĞµÄ GDT ¸´ÖÆµ½ĞÂµÄ GDT ÖĞ
+	// å°† LOADER ä¸­çš„ GDT å¤åˆ¶åˆ°æ–°çš„ GDT ä¸­
 	memcpy(	&gdt,				    // New GDT
 		(void*)(*((t_32*)(&gdt_ptr[2]))),   // Base  of Old GDT
 		*((t_16*)(&gdt_ptr[0])) + 1	    // Limit of Old GDT
 		);
-	// gdt_ptr[6] ¹² 6 ¸ö×Ö½Ú£º0~15:Limit  16~47:Base¡£ÓÃ×÷ sgdt ÒÔ¼° lgdt µÄ²ÎÊı¡£
+	// gdt_ptr[6] å…± 6 ä¸ªå­—èŠ‚ï¼š0~15:Limit  16~47:Baseã€‚ç”¨ä½œ sgdt ä»¥åŠ lgdt çš„å‚æ•°ã€‚
 	t_16* p_gdt_limit = (t_16*)(&gdt_ptr[0]);
 	t_32* p_gdt_base  = (t_32*)(&gdt_ptr[2]);
 	*p_gdt_limit = GDT_SIZE * sizeof(DESCRIPTOR) - 1;
 	*p_gdt_base  = (t_32)&gdt;
 
-	// idt_ptr[6] ¹² 6 ¸ö×Ö½Ú£º0~15:Limit  16~47:Base¡£ÓÃ×÷ sidt ÒÔ¼° lidt µÄ²ÎÊı¡£
+	// idt_ptr[6] å…± 6 ä¸ªå­—èŠ‚ï¼š0~15:Limit  16~47:Baseã€‚ç”¨ä½œ sidt ä»¥åŠ lidt çš„å‚æ•°ã€‚
 	t_16* p_idt_limit = (t_16*)(&idt_ptr[0]);
 	t_32* p_idt_base  = (t_32*)(&idt_ptr[2]);
 	*p_idt_limit = IDT_SIZE * sizeof(GATE) - 1;

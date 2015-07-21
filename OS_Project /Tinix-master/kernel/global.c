@@ -1,4 +1,3 @@
-
 /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                             global.c
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -17,7 +16,7 @@
 #include "proto.h"
 
 
-PUBLIC	PROCESS	proc_table[NR_TASKS + NR_PROCS];//½ø³Ì±í
+PUBLIC	PROCESS	proc_table[NR_TASKS + NR_PROCS];//Î©Â¯â‰¥ÃƒÂ±ÃŒ
 
 PUBLIC	TASK	task_table[NR_TASKS] = {{task_tty, STACK_SIZE_TTY, "tty"}};
 PUBLIC	TASK	user_proc_table[NR_PROCS] = {	{Terminal, STACK_SIZE_TERMINAL, "Terminal"},

@@ -74,6 +74,9 @@ PUBLIC int tinix_main()
 	disp_str("*            **        ******    **      ***    ******   **      **   \n");
 	disp_str("*                                                                     \n");
 	disp_str("**********************************************************************\n");
+	disp_str("**********************************************************************\n");
+	disp_str("**********************************************************************\n");
+	disp_str("**********************************************************************\n");
 	TASK*		p_task;
 	PROCESS*	p_proc		= proc_table;
 	char*		p_task_stack	= task_stack + STACK_SIZE_TOTAL;
@@ -83,13 +86,13 @@ PUBLIC int tinix_main()
 	t_8		rpl;
 	int		eflags;
 	for(i=0;i<NR_TASKS+NR_PROCS;i++){
-		if (i < NR_TASKS) {	/* ÈÎÎñ */
+		if (i < NR_TASKS) {	/* ä»»åŠ¡ */
 			p_task		= task_table + i;
 			privilege	= PRIVILEGE_TASK;
 			rpl		= RPL_TASK;
 			eflags		= 0x1202;	/* IF=1, IOPL=1, bit 2 is always 1 */
 		}
-		else {			/* ÓÃ»§½ø³Ì */
+		else {			/* ç”¨æˆ·è¿›ç¨‹ */
 			p_task		= user_proc_table + (i - NR_TASKS);
 			privilege	= PRIVILEGE_USER;
 			rpl		= RPL_USER;
@@ -122,7 +125,7 @@ PUBLIC int tinix_main()
 		selector_ldt += 1 << 3;
 	}
 
-	//ĞŞ¸ÄÕâÀïµÄÓÅÏÈ¼¶ºÍticks
+	//ä¿®æ”¹è¿™é‡Œçš„ä¼˜å…ˆçº§å’Œticks
 	proc_table[0].priority = 15;
 	proc_table[1].priority =  5;
 	proc_table[2].priority =  5;
@@ -131,13 +134,13 @@ PUBLIC int tinix_main()
 	proc_table[5].priority =  10;
 	proc_table[6].priority =  10;
 
-	//¶ÔÓÅÏÈ¶ÓÁĞ³õÊ¼»¯
+	//å¯¹ä¼˜å…ˆé˜Ÿåˆ—åˆå§‹åŒ–
 	firstLen=firstHead=secondLen=0;
 	for (i=0; i<NR_TASKS+NR_PROCS;i++)
 	{
 		addToQueue(proc_table+i);
 	}
-	//Ö¸¶¨¿ØÖÆÌ¨
+	//æŒ‡å®šæ§åˆ¶å°
 	proc_table[1].nr_tty = 0;
 	proc_table[2].nr_tty = 1;
 	proc_table[3].nr_tty = 1;
@@ -424,7 +427,7 @@ void displayGameState()
 
 }
 
-int checkParameter(int x, int y)	//¼ì²éÍæ¼ÒÊäÈëµÄ²ÎÊıÊÇ·ñÕıÈ·
+int checkParameter(int x, int y)	//æ£€æŸ¥ç©å®¶è¾“å…¥çš„å‚æ•°æ˜¯å¦æ­£ç¡®
 {
 	int n=15;
 	if (x<0 || y<0 || x>=n || y>=n) return 0;
@@ -432,13 +435,13 @@ int checkParameter(int x, int y)	//¼ì²éÍæ¼ÒÊäÈëµÄ²ÎÊıÊÇ·ñÕıÈ·
 	return 1;
 }
 
-//¸üĞÂµÄÎ»ÖÃÎªx£¬y£¬Òò´Ë Ö»Òª¼ì²é×ø±êÎªx£¬yµÄÎ»ÖÃ
-int win(int x,int y)		//Ê¤Àû·µ»Ø1    ·ñÔò0£¨Ä¿Ç°ÎŞÈË»ñÊ¤£©
+//æ›´æ–°çš„ä½ç½®ä¸ºxï¼Œyï¼Œå› æ­¤ åªè¦æ£€æŸ¥åæ ‡ä¸ºxï¼Œyçš„ä½ç½®
+int win(int x,int y)		//èƒœåˆ©è¿”å›1    å¦åˆ™0ï¼ˆç›®å‰æ— äººè·èƒœï¼‰
 {
 	int n=15;
 	int i,j;
 	int gameCount;
-	//×óÓÒÀ©Õ¹
+	//å·¦å³æ‰©å±•
 	gameCount=1;
 	for (j=y+1; j<n; j++)
 	{
@@ -452,7 +455,7 @@ int win(int x,int y)		//Ê¤Àû·µ»Ø1    ·ñÔò0£¨Ä¿Ç°ÎŞÈË»ñÊ¤£©
 	}
 	if (gameCount>=5) return 1;
 
-	//ÉÏÏÂÀ©Õ¹
+	//ä¸Šä¸‹æ‰©å±•
 	gameCount=1;
 	for (i=x-1; i>0; i--)
 	{
@@ -466,7 +469,7 @@ int win(int x,int y)		//Ê¤Àû·µ»Ø1    ·ñÔò0£¨Ä¿Ç°ÎŞÈË»ñÊ¤£©
 	}
 	if (gameCount>=5) return 1;
 
-	//Õı¶Ô½ÇÏßÀ©Õ¹
+	//æ­£å¯¹è§’çº¿æ‰©å±•
 	gameCount=1;
 	for (i=x-1,j=y-1; i>=0 && j>=0; i--,j--)
 	{
@@ -480,7 +483,7 @@ int win(int x,int y)		//Ê¤Àû·µ»Ø1    ·ñÔò0£¨Ä¿Ç°ÎŞÈË»ñÊ¤£©
 	}
 	if (gameCount>=5) return 1;
 
-	//¸º¶Ô½ÇÏßÀ©Õ¹
+	//è´Ÿå¯¹è§’çº¿æ‰©å±•
 	gameCount=1;
 	for (i=x-1,j=y+1; i>=0 && j<n; i--,j++)
 	{
@@ -576,18 +579,18 @@ void free4(int x1,int y1,int x2,int y2,int *ff1,int *ff2)
 
 int getPossibleByAD(int attack,int defence,int attackFree1,int attackFree2,int defenceFree1,int defenceFree2)
 {
-	if (attack>=5) return 20;						//5¹¥»÷
-	if (defence>=5) return 19;						//5·ÀÓù
-	if (attack==4 && (attackFree1>=1 && attackFree2>=1)) return 18;		//4¹¥»÷ 2±ß
-	if (attack==4 && (attackFree1>=1 || attackFree2>=1)) return 17;		//4¹¥»÷ 1±ß
-	if (defence==4 && (defenceFree1>=1 || defenceFree2>=1)) return 16;	//4·ÀÓù
-	if (attack==3 && (attackFree1>=2 && attackFree2>=2)) return 15;		//3¹¥»÷ 2±ß
-	if (defence==3 && (defenceFree1>=2 && defenceFree2>=2)) return 14;	//3·ÀÓù 2±ß
-	if (defence==3 && (defenceFree1>=2 || defenceFree2>=2)) return 13;	//3·ÀÓù 1±ß
-	if (attack==3 && (attackFree1>=2 || attackFree2>=2)) return 12;		//3¹¥»÷ 1±ß
-	if (attack==2 && (attackFree1>=3 && attackFree2>=3)) return 11;		//2¹¥»÷ 2±ß
-	if (defence==2 && defenceFree1+defenceFree2>=3) return 10;	//2·ÀÓù 2±ß
-	if (defence==2 && defenceFree1+defenceFree2>=3) return 9;		//2·ÀÓù 1±ß
+	if (attack>=5) return 20;						//5æ”»å‡»
+	if (defence>=5) return 19;						//5é˜²å¾¡
+	if (attack==4 && (attackFree1>=1 && attackFree2>=1)) return 18;		//4æ”»å‡» 2è¾¹
+	if (attack==4 && (attackFree1>=1 || attackFree2>=1)) return 17;		//4æ”»å‡» 1è¾¹
+	if (defence==4 && (defenceFree1>=1 || defenceFree2>=1)) return 16;	//4é˜²å¾¡
+	if (attack==3 && (attackFree1>=2 && attackFree2>=2)) return 15;		//3æ”»å‡» 2è¾¹
+	if (defence==3 && (defenceFree1>=2 && defenceFree2>=2)) return 14;	//3é˜²å¾¡ 2è¾¹
+	if (defence==3 && (defenceFree1>=2 || defenceFree2>=2)) return 13;	//3é˜²å¾¡ 1è¾¹
+	if (attack==3 && (attackFree1>=2 || attackFree2>=2)) return 12;		//3æ”»å‡» 1è¾¹
+	if (attack==2 && (attackFree1>=3 && attackFree2>=3)) return 11;		//2æ”»å‡» 2è¾¹
+	if (defence==2 && defenceFree1+defenceFree2>=3) return 10;	//2é˜²å¾¡ 2è¾¹
+	if (defence==2 && defenceFree1+defenceFree2>=3) return 9;		//2é˜²å¾¡ 1è¾¹
 	if (attack==1 && attackFree1+attackFree2>=4) return 8;
 	if (defence==1 && defenceFree1+defenceFree2>=4) return 7;
 	return 6;
@@ -604,10 +607,10 @@ int getPossible(int x,int y)
 	int defenceFree2;
 	int possible=-100;
 
-	//×óÓÒÀ©Õ¹
+	//å·¦å³æ‰©å±•
 	int al,ar;
 	int dl,dr;
-	//ºáÏò¹¥»÷
+	//æ¨ªå‘æ”»å‡»
 	for (al=y-1; al>=0; al--)
 	{
 		if (gameMap[x][al]!='*') break;
@@ -616,7 +619,7 @@ int getPossible(int x,int y)
 	{
 		if (gameMap[x][ar]!='*') break;
 	}
-	//ºáÏò·ÀÊØ
+	//æ¨ªå‘é˜²å®ˆ
 	for (dl=y-1; dl>=0; dl--)
 	{
 		if (gameMap[x][dl]!='o') break;
@@ -631,7 +634,7 @@ int getPossible(int x,int y)
 	free1(x,dl,dr,&defenceFree1,&defenceFree2);
 	possible=max(possible,getPossibleByAD(attack,defence,attackFree1,attackFree2,defenceFree1,defenceFree2));
 
-	//ÊúÏò½ø¹¥
+	//ç«–å‘è¿›æ”»
 	for (al=x-1; al>=0; al--)
 	{
 		if (gameMap[al][y]!='*') break;
@@ -640,7 +643,7 @@ int getPossible(int x,int y)
 	{
 		if (gameMap[ar][y]!='*') break;
 	}
-	//ÊúÏò·ÀÊØ
+	//ç«–å‘é˜²å®ˆ
 	for (dl=x-1; dl>=0; dl--)
 	{
 		if (gameMap[dl][y]!='o') break;
@@ -655,7 +658,7 @@ int getPossible(int x,int y)
 	free2(dl,dr,y,&defenceFree1,&defenceFree2);
 	possible=max(possible,getPossibleByAD(attack,defence,attackFree1,attackFree2,defenceFree1,defenceFree2));
 
-	//Õı¶Ô½ÇÏß½ø¹¥
+	//æ­£å¯¹è§’çº¿è¿›æ”»
 	int al1,al2,ar1,ar2;
 	int dl1,dl2,dr1,dr2;
 	for (al1=x-1,al2=y-1; al1>=0 && al2>=0; al1--,al2--)
@@ -666,7 +669,7 @@ int getPossible(int x,int y)
 	{
 		if (gameMap[ar1][ar2]!='*') break;
 	}
-	//Õı¶Ô½ÇÏß·ÀÊØ
+	//æ­£å¯¹è§’çº¿é˜²å®ˆ
 	for (dl1=x-1,dl2=y-1; dl1>=0 && dl2>=0; dl1--,dl2--)
 	{
 		if (gameMap[dl1][dl2]!='o') break;
@@ -681,7 +684,7 @@ int getPossible(int x,int y)
 	free3(dl1,dl2,dr1,dr2,&defenceFree1,&defenceFree2);
 	possible=max(possible,getPossibleByAD(attack,defence,attackFree1,attackFree1,defenceFree1,defenceFree2));
 
-	//¸º¶Ô½ÇÏß½ø¹¥
+	//è´Ÿå¯¹è§’çº¿è¿›æ”»
 	for (al1=x-1,al2=y+1; al1>=0 && al2<n; al1--,al2++)
 	{
 		if (gameMap[al1][al2]!='*') break;
@@ -690,7 +693,7 @@ int getPossible(int x,int y)
 	{
 		if (gameMap[ar1][ar2]!='*') break;
 	}
-	//¸º¶Ô½ÇÏß·ÀÊØ
+	//è´Ÿå¯¹è§’çº¿é˜²å®ˆ
 	for (dl1=x-1,dl2=y+1; dl1>=0 && dl2<n; dl1--,dl2++)
 	{
 		if (gameMap[dl1][dl2]!='o') break;
