@@ -73,7 +73,7 @@ PUBLIC void milli_delay(int milli_sec)
 	
 	int i = 0;
 
-	while(i<2000000)
+	while(i<4000000)
 {
 	i++;
 }
