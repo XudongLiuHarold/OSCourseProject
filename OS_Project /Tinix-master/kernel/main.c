@@ -46,12 +46,19 @@ void addToQueue(PROCESS* p)
 		p->ticks=2;
 		p->whichQueue=1;
 	}
-	else
+	else if (p->priority>=5)
 	{
 		secondQueue[secondLen]=p;
 		secondLen++;
-		p->ticks=p->priority;
+		p->ticks=3;
 		p->whichQueue=2;
+	}
+	else
+	{
+		thirdQueue[thirdLen]=p;
+		thirdLen++;
+		p->ticks=p->priority;
+		p->whichQueue=3;
 	}
 }
 
@@ -74,9 +81,7 @@ PUBLIC int tinix_main()
 	disp_str("*            **        ******    **      ***    ******   **      **   \n");
 	disp_str("*                                                                     \n");
 	disp_str("**********************************************************************\n");
-	disp_str("**********************************************************************\n");
-	disp_str("**********************************************************************\n");
-	disp_str("**********************************************************************\n");
+
 	TASK*		p_task;
 	PROCESS*	p_proc		= proc_table;
 	char*		p_task_stack	= task_stack + STACK_SIZE_TOTAL;
@@ -130,11 +135,12 @@ PUBLIC int tinix_main()
 	proc_table[1].priority =  5;
 	proc_table[2].priority =  5;
 	proc_table[3].priority =  5;
-	proc_table[4].priority =  7;
+	proc_table[4].priority =  2;
 	proc_table[5].priority =  10;
 	proc_table[6].priority =  10;
 
 	//对优先队列初始化
+	thirdLen=0;
 	firstLen=firstHead=secondLen=0;
 	for (i=0; i<NR_TASKS+NR_PROCS;i++)
 	{

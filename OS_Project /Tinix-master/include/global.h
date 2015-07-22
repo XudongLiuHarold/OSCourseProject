@@ -25,9 +25,11 @@ EXTERN	TSS		tss;
 EXTERN	PROCESS*	p_proc_ready;
 EXTERN 	PROCESS*	firstQueue[20];
 EXTERN 	PROCESS*	secondQueue[20];
-EXTERN 	int		firstLen;
+EXTERN  PROCESS*    thirdQueue[20];
+EXTERN 	int			firstLen;
 EXTERN 	int 		firstHead;
 EXTERN 	int 		secondLen;
+EXTERN  int 		thirdLen;
 EXTERN	int		nr_current_console;
 
 extern	PROCESS		proc_table[];
