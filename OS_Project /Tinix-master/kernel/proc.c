@@ -72,9 +72,9 @@ PUBLIC void schedule()
 			greatest_priority=p_proc_ready->ticks;
 			break;
 		}
-		else if (secondLen - firstHead >0)
+		else if (secondLen+firstLen - firstHead >0)
 		{
-		for (i=0; i<secondLen; i++)		//第二个队列增设判断是否为runnable状态
+		for (i=0; i<secondLen; i++)		//the second queue use the priority algorithm
 			{
 				p=secondQueue[i];
 				if (p->state!=kRUNNABLE || p->ticks==0) continue;
@@ -83,17 +83,10 @@ PUBLIC void schedule()
 					greatest_priority = p->ticks;
 					p_proc_ready = p;
 				}
-				/*{	下面代码被卡死。。。我也不懂为什么。。
-					if (p->priority>greatest_priority && p->ticks!=0)
-					{
-						greatest_priority=p->priority;
-						p_proc_ready=p;
-					}
-				}*/
 			}		
-		}						//第二个队列按照优先级
+		}					
 		else{
-		for (i=0; i<thirdLen; i++)		//第二个队列增设判断是否为runnable状态
+		for (i=0; i<thirdLen; i++)		//the third queue still use the priority algorithm
 			{
 				p=thirdQueue[i];
 				if (p->state!=kRUNNABLE || p->ticks==0) continue;
@@ -102,15 +95,8 @@ PUBLIC void schedule()
 					greatest_priority = p->ticks;
 					p_proc_ready = p;
 				}
-				/*{	下面代码被卡死。。。我也不懂为什么。。
-					if (p->priority>greatest_priority && p->ticks!=0)
-					{
-						greatest_priority=p->priority;
-						p_proc_ready=p;
-					}
-				}*/
 			}	
-		    }
+		}
 		if (!greatest_priority)	initializeAllPro();
 	}
 	p_proc_ready->state=kRUNNING;
