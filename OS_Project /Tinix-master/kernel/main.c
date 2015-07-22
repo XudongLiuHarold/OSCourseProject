@@ -137,7 +137,10 @@ PUBLIC int tinix_main()
 	proc_table[3].priority =  5;
 	proc_table[4].priority =  2;
 	proc_table[5].priority =  10;
-	proc_table[6].priority =  10;
+	proc_table[6].priority =  20;
+	proc_table[7].priority =  8;
+	proc_table[8].priority = 8;
+	proc_table[9].priority = 8;
 
 	//对优先队列初始化
 	thirdLen=0;
@@ -153,6 +156,9 @@ PUBLIC int tinix_main()
 	proc_table[4].nr_tty = 1;
 	proc_table[5].nr_tty = 1;
 	proc_table[6].nr_tty = 2;
+	proc_table[7].nr_tty = 3;
+	proc_table[8].nr_tty = 4;
+	proc_table[9].nr_tty = 5;
 
 	k_reenter	= 0;
 	ticks		= 0;
@@ -266,7 +272,7 @@ void dealWithCommand(char* command)
 		return ;
 	}
 
-	char str[100];
+	char str[10] = {'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
 	int number;
 	readOneStringAndOneNumber(command,str,& number);
 	if (strcmp(str,"kill")==0)
@@ -275,11 +281,11 @@ void dealWithCommand(char* command)
 		{
 			printf("No found this process!!");
 		}
-		else if (number==0 || number==6)
+		else if (number==0 || number==8)
 		{
 			printf("You do not have sufficient privileges\n");
 		}
-		else if (2<=number && number <=5)
+		else if (2<=number && number <=7)
 		{
 			proc_table[number].state=kREADY;
 			printf("kill process %d successful\n",number);
@@ -292,13 +298,13 @@ void dealWithCommand(char* command)
 		{
 			printf("No found this process!!");
 		}
-		else if (number==0 || number==6)
+		else if (number==0 || number==8)
 		{
 			printf("You do not have sufficient privileges\n");
 		}
-		else if (2<=number && number <=5)
+		else if (2<=number && number <=7)
 		{
-			proc_table[number].state=kRUNNABLE;
+			proc_table[number].state=kRUNNING;
 			printf("start process %d successful\n",number);
 		}
 		return ;
@@ -796,3 +802,216 @@ void goBangGameStart()
 
 }
 
+/*======================================================================*
+				calculator
+*=======================================================================*/
+
+int add_fun(int x,int y)
+{
+	return x+y;
+}
+int sub_fun(int x,int y)
+{
+	return x-y;
+}  
+int mul_fun(int x,int y)
+{
+	return x*y;
+}  
+int div_fun(int x,int y)
+{
+	return x/y;
+} 
+
+TTY *calculatorTty=tty_table+2;
+
+void readTwoNumbers(int* x,int* y)
+{
+	int i=0;
+	*x=0;
+	*y=0;
+	for (i=0; i<calculatorTty->len && calculatorTty->str[i]==' '; i++);
+	for (; i<calculatorTty->len && calculatorTty->str[i]!=' '  && calculatorTty->str[i]!='\n'; i++)
+	{
+		*x=(*x)*10+(int) calculatorTty->str[i]-48;
+	}
+	for (i; i<calculatorTty->len && calculatorTty->str[i]==' '; i++);
+	for (; i<calculatorTty->len && calculatorTty->str[i]!=' ' && calculatorTty->str[i]!='\n'; i++)
+	{
+		*y=(*y)*10+(int) calculatorTty->str[i]-48;
+	}
+}
+
+void readOneString(char* command,char* str)
+{
+	int i;
+	int j=0;
+	for (i=0; i<strlen(command); i++)
+	{
+		if (command[i]!=' ') break;
+	}
+	for (; i<strlen(command); i++)
+	{
+		if (command[i]==' ') break;
+		str[j]=command[i];
+		j++;
+	}
+}
+
+void dealWithCal(char* command)
+{
+	strlwr(command);
+	if (strcmp(command,"add")==0)
+	{
+		// clearScreen();
+		// sys_clear(tty_table);
+		printf("Enter the two numbers you want to add with a space:");
+				//scanf("%d%d",&x,&y);
+				openStartScanf(calculatorTty);
+				while (calculatorTty->startScanf) ;
+				int x,y;
+				readTwoNumbers(&x,&y);
+				int result = add_fun(x,y);
+				printf("result: %d\n", result);
+		return ;
+	}
+	if (strcmp(command,"minus")==0)
+	{
+		printf("Enter the two numbers you want to minus with a space:");
+				//scanf("%d%d",&x,&y);
+				openStartScanf(calculatorTty);
+				while (calculatorTty->startScanf) ;
+				int x,y;
+				readTwoNumbers(&x,&y);
+				int result = sub_fun(x,y);
+				// printf("minus:x:%d\n", x);
+				printf("result: %d\n", result);
+		return ;
+	}
+	if (strcmp(command,"multiply")==0)
+	{
+		printf("Enter the two numbers you want to multiply with a space:");
+				//scanf("%d%d",&x,&y);
+				openStartScanf(calculatorTty);
+				while (calculatorTty->startScanf) ;
+				int x,y;
+				readTwoNumbers(&x,&y);
+				int result = mul_fun(x,y);
+				printf("result: %d\n", result);
+		return ;
+	}
+	if (strcmp(command,"divide")==0)
+	{
+		printf("Enter the two numbers you want to divide with a space:");
+				//scanf("%d%d",&x,&y);
+				openStartScanf(calculatorTty);
+				while (calculatorTty->startScanf) ;
+				int x,y;
+				readTwoNumbers(&x,&y);
+				int result = div_fun(x,y);
+				printf("result: %d\n", result);
+		return;
+	}
+
+	char str[10] = {'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
+	int number;
+	readOneStringAndOneNumber(command,str,& number);
+	
+	printf("can not find this command\n");
+}
+
+void calculator()
+{
+	TTY *p_tty2=tty_table+2;
+	p_tty2->startScanf=0;
+	while(1){
+		printf("\nchoose a method:  ");
+		openStartScanf(p_tty2);
+		while (p_tty2->startScanf) ;
+		dealWithCal(p_tty2->str);
+/*
+		while (1)
+		{
+			
+			char* command = p_tty2->str;
+			// printf("%s\n", command);
+			
+			char str[10]={'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
+			readOneString(command,str);
+			 // printf("str: %s\n", command);
+
+			if (strcmp(command,"add")==0)
+			{
+				printf("Enter the two numbers you want to add with a space:");
+				//scanf("%d%d",&x,&y);
+				openStartScanf(calculatorTty);
+				while (calculatorTty->startScanf) ;
+				int x,y;
+				readTwoNumbers(&x,&y);
+				int result = add_fun(x,y);
+				printf("result: %d\n", result);
+				break;
+			}
+			else if (strcmp(command,"minus")==0)
+			{
+				printf("Enter the two numbers you want to minus with a space:");
+				//scanf("%d%d",&x,&y);
+				openStartScanf(calculatorTty);
+				while (calculatorTty->startScanf) ;
+				int x,y;
+				readTwoNumbers(&x,&y);
+				int result = sub_fun(x,y);
+				printf("minus:x:%d\n", x);
+				printf("result: %d\n", result);
+				break;
+			}
+			else if (strcmp(command,"multiply")==0)
+			{
+				printf("Enter the two numbers you want to multiply with a space:");
+				//scanf("%d%d",&x,&y);
+				openStartScanf(calculatorTty);
+				while (calculatorTty->startScanf) ;
+				int x,y;
+				readTwoNumbers(&x,&y);
+				int result = mul_fun(x,y);
+				printf("result: %d\n", result);
+				break;
+			}
+			else if (strcmp(command,"divide")==0)
+			{
+				printf("Enter the two numbers you want to divide with a space:");
+				//scanf("%d%d",&x,&y);
+				openStartScanf(calculatorTty);
+				while (calculatorTty->startScanf) ;
+				int x,y;
+				readTwoNumbers(&x,&y);
+				int result = div_fun(x,y);
+				printf("result: %d\n", result);
+				break;
+			}
+		}*/
+	}
+}
+
+
+/*======================================================================*
+				app1
+*=======================================================================*/
+
+void appone()
+{
+	printf("application one\n");
+	while(1);
+}
+
+
+
+/*======================================================================*
+				app1
+*=======================================================================*/
+
+void apptwo()
+{
+	printf("application two\n");
+	while(1);
+}

@@ -31,10 +31,13 @@ PUBLIC void	restart();
 PUBLIC void	Terminal();
 PUBLIC void	TestB();
 PUBLIC void	TestC();
-PUBLIC void 	TestD();
-PUBLIC void 	TestE();
-PUBLIC void  	clearScreen();
-PUBLIC void 	goBangGameStart();
+PUBLIC void TestD();
+PUBLIC void TestE();
+PUBLIC void clearScreen();
+PUBLIC void goBangGameStart();
+PUBLIC void calculator();
+PUBLIC void appone();
+PUBLIC void apptwo();
 
 /* i8259.c */
 PUBLIC void	put_irq_handler(int iIRQ, t_pf_irq_handler handler);
