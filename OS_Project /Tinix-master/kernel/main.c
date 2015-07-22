@@ -1015,12 +1015,6 @@ void calculator()
 		}*/
 	}
 }
-void calculator()
-{
-	printf("calculator\n");
-	while(1);
-}
-
 
 /*======================================================================*
 				app1
