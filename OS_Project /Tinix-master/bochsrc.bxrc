@@ -22,5 +22,5 @@ log: bochsout.txt
 mouse: enabled=0
 
 # enable key mapping, using US layout as default.
-keyboard:keymap=/usr/local/share/bochs/keymaps/x11-pc-us.map
+# keymap:keymap=/usr/local/share/bochs/keymaps/x11-pc-us.map
 

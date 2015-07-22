@@ -137,7 +137,10 @@ PUBLIC int tinix_main()
 	proc_table[3].priority =  5;
 	proc_table[4].priority =  2;
 	proc_table[5].priority =  10;
-	proc_table[6].priority =  10;
+	proc_table[6].priority =  20;
+	proc_table[7].priority =  8;
+	proc_table[8].priority = 8;
+	proc_table[9].priority = 8;
 
 	//对优先队列初始化
 	thirdLen=0;
@@ -153,6 +156,9 @@ PUBLIC int tinix_main()
 	proc_table[4].nr_tty = 1;
 	proc_table[5].nr_tty = 1;
 	proc_table[6].nr_tty = 2;
+	proc_table[7].nr_tty = 3;
+	proc_table[8].nr_tty = 4;
+	proc_table[9].nr_tty = 5;
 
 	k_reenter	= 0;
 	ticks		= 0;
@@ -266,7 +272,7 @@ void dealWithCommand(char* command)
 		return ;
 	}
 
-	char str[100];
+	char str[10] = {'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
 	int number;
 	readOneStringAndOneNumber(command,str,& number);
 	if (strcmp(str,"kill")==0)
@@ -275,11 +281,11 @@ void dealWithCommand(char* command)
 		{
 			printf("No found this process!!");
 		}
-		else if (number==0 || number==6)
+		else if (number==0 || number==8)
 		{
 			printf("You do not have sufficient privileges\n");
 		}
-		else if (2<=number && number <=5)
+		else if (2<=number && number <=7)
 		{
 			proc_table[number].state=kREADY;
 			printf("kill process %d successful\n",number);
@@ -292,13 +298,13 @@ void dealWithCommand(char* command)
 		{
 			printf("No found this process!!");
 		}
-		else if (number==0 || number==6)
+		else if (number==0 || number==8)
 		{
 			printf("You do not have sufficient privileges\n");
 		}
-		else if (2<=number && number <=5)
+		else if (2<=number && number <=7)
 		{
-			proc_table[number].state=kRUNNABLE;
+			proc_table[number].state=kRUNNING;
 			printf("start process %d successful\n",number);
 		}
 		return ;
@@ -796,3 +802,35 @@ void goBangGameStart()
 
 }
 
+/*======================================================================*
+				calculator
+*=======================================================================*/
+
+void calculator()
+{
+	printf("calculator\n");
+	while(1);
+}
+
+
+/*======================================================================*
+				app1
+*=======================================================================*/
+
+void appone()
+{
+	printf("application one\n");
+	while(1);
+}
+
+
+
+/*======================================================================*
+				app1
+*=======================================================================*/
+
+void apptwo()
+{
+	printf("application two\n");
+	while(1);
+}

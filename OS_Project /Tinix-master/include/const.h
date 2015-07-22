@@ -52,7 +52,7 @@
 #define	RPL_USER	SA_RPL3
 
 /* TTY */
-#define	NR_CONSOLES	4	/* consoles */
+#define	NR_CONSOLES	6	/* consoles */
 
 /* 8259A interrupt controller ports. */
 #define	INT_M_CTL	0x20	/* I/O port for interrupt controller         <Master> */
