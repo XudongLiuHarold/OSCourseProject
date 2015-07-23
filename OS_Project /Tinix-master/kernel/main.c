@@ -1566,3 +1566,4 @@ void displayGoodBye()
 	disp_color_str("                     --  MandyXue  FowafoloAn  XudongLiu- -\n\n",0xF); 	
 	disp_color_str("                     -----------      Goodbye     ---------\n\n",0xD);
 }
+

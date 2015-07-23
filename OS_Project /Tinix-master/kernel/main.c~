@@ -73,8 +73,6 @@ PUBLIC int tinix_main()
 	milli_delay(3);
 	DisPlayAnimation();
 
-
-
 	TASK*		p_task;
 	PROCESS*	p_proc		= proc_table;
 	char*		p_task_stack	= task_stack + STACK_SIZE_TOTAL;
@@ -165,6 +163,10 @@ PUBLIC int tinix_main()
 	while(1){}
 }
 
+/*======================================================================*
+                            clearScreen
+ *======================================================================*/
+
 void clearScreen()
 {
 	int i;
@@ -177,6 +179,9 @@ void clearScreen()
 	
 }
 
+/*======================================================================*
+                            help
+ *======================================================================*/
 
 void help()
 {
@@ -197,6 +202,10 @@ void help()
 	printf("      ==========================================================\n");
 	printf("\n");
 }
+
+/*======================================================================*
+                            show progress
+ *======================================================================*/
 
 void show()
 {
@@ -220,6 +229,10 @@ void show()
 		}
 	}
 }
+
+/*======================================================================*
+                            readOneStringAndOneNumber
+ *======================================================================*/
 
 void readOneStringAndOneNumber(char* command,char* str,int* number)
 {
@@ -246,6 +259,10 @@ void readOneStringAndOneNumber(char* command,char* str,int* number)
 		*number=*number*10+(int) command[i]-'0';
 	}
 }
+
+/*======================================================================*
+                            dealWithCommand
+ *======================================================================*/
 
 void dealWithCommand(char* command)
 {
@@ -378,9 +395,11 @@ void TestE()
 		milli_delay(1000);
 	}
 }
+
 /*======================================================================*
-				goBangGame
+								goBangGame
 *=======================================================================*/
+
 char gameMap[15][15];
 TTY *goBangGameTty=tty_table+2;
 
@@ -1066,8 +1085,6 @@ void DisPlayAnimation()//开机动画
 	//disp_color_str("             QAAAAAAAAAAAAAAAAAAAAAAQ\n",0x33);
 	disp_str("             Q======================Q\n");
 	milli_delay(1);
-	///////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	clearScreen();
@@ -1105,8 +1122,7 @@ void DisPlayAnimation()//开机动画
 	disp_str("Q\n");
 	disp_str("             Q======================Q\n");
 	milli_delay(1);
-	///////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////
+
 ///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	clearScreen();
@@ -1187,8 +1203,7 @@ void DisPlayAnimation()//开机动画
 	disp_str("Q\n");
 	disp_str("             Q======================Q\n");
 	milli_delay(1);
-	///////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////
+
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	clearScreen();
@@ -1234,8 +1249,6 @@ void DisPlayAnimation()//开机动画
 	milli_delay(1);
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////
 	clearScreen();
 	disp_str("      HHHHHHHHHHHHH\n");
 	disp_str("      HHHH     HHHH\n");
@@ -1279,8 +1292,7 @@ void DisPlayAnimation()//开机动画
 	disp_str("Q\n");
 	disp_str("             Q======================Q\n");
 	milli_delay(1);
-	///////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////
+
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	clearScreen();
@@ -1327,8 +1339,7 @@ void DisPlayAnimation()//开机动画
 	disp_str("Q\n");
 	disp_str("             Q======================Q\n");
 	milli_delay(1);
-	///////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////////////////////////
+	
 	///////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////
 	clearScreen();
@@ -1509,38 +1520,18 @@ void DisPlayAnimation()//开机动画
 	disp_color_str("     \n",0xCF);
 	
 
-	// disp_str("             QAAAAAAAAAAAAAAAAAAAAAAQ                  F     U    U E     E\n");
-	// disp_str("             QAAAAAAAAAAAAAAAAAAAAAAQ                  FFFFF U    U E     E\n");
-	// disp_str("             QAAAAAAAAAAAAAAAAAAAAAAQ                  F     U    U E     E\n");
-	// disp_str("             QAAAAAAAAAAAAAAAAAAAAAAQ                  E     UUUUUU LLLLL LLLLL\n");
 	disp_str("");
-	// disp_str("             QAAAAAAAAAAAAAAAAAAAAAAQ\n");
-	// disp_str("             QAAAAAAAAAAAAAAAAAAAAAAQ\n");
-	// disp_str("             QAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA\n");
-	// disp_str("             Q======================QAAAAAAAAAAAAAAAAAAAAAAAA\n");
+
 	milli_delay(2);	
 	clearScreen();
-// 	disp_color_str("alan\n",0x1);//dark blue
-// 	disp_color_str("alan\n",0x2);//dark light green
-// 	disp_color_str("alan\n",0x33);//light blue
-// 	disp_color_str("alan\n",0x4);//red
-// 	disp_color_str("alan\n",0x5);//pink
-// 	disp_color_str("alan\n",0x6);//dark orange
-// 	disp_color_str("alan\n",0x7);//light gray
-// 	disp_color_str("alan\n",0x8);//dark gray
-// disp_color_str("alan\n",0xA);//light green
-// 	disp_color_str("alan\n",0xB);//light light green
-// 	disp_color_str("alan\n",0xCF);//light red
-// 	disp_color_str("alan\n",0xD);//light pink
-// 	disp_color_str("alan\n",0xCF);//light yellow
-// disp_color_str("alan\n",0xF);//white
-// 	disp_color_str("alan\n",0xCFF);//twinkle white with orange background
-// 	disp_color_str("alan\n",0xABC);//twinkle red with green background
-// 	disp_color_str("alan\n",0xCFFF);//twinkle white with gray	 background
 
 	displayWelcome();
 
 }
+
+/*======================================================================*
+						display welcome
+*=======================================================================*/
 
 void displayWelcome()
 {
@@ -1555,6 +1546,10 @@ void displayWelcome()
 	disp_str("========                      Enter [help] to get help               ========\n");
 	disp_str("=============================================================================\n");
 }
+
+/*======================================================================*
+						display goodbye
+*=======================================================================*/
 
 void displayGoodBye()
 {
