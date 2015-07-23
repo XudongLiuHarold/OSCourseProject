@@ -66,11 +66,7 @@
 					</section>
 					<section data-background="images/back-3.jpg">
 						<h3>git记录</h3>
-						<img src="images/back-1.jpg">
-					</section>
-					<section data-background="images/back-3.jpg">
-						<h3>git记录</h3>
-						<img src="images/back-1.jpg">
+						<img src="images/git.png">
 					</section>
 				</section>
 
@@ -209,12 +205,106 @@ if (strcmp(command,"goodbye")==0)
 				</section>
 				<section>
 					<section data-background="images/back-3.jpg">
-						<h2>特色3：添加系统级进程</h2>
+						<h2>特色3：添加进程</h2>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>步骤1</h3>
+						<p><label style="color:#FF7F50">main.c</label> <label style="color:#9ACD32">写好进程内执行代码</label></p>
+						<pre><code data-trim>
+void appone()
+{
+	printf("Hello \n This is a calendar application, you can use it as follows!\n");
+	calendar();
+	printf("byebye\n");
+}
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>步骤2</h3>
+						<p><label style="color:#FF7F50">global.c</label> <label style="color:#9ACD32">添加user_proc_table</label></p>
+						<pre><code data-trim>
+PUBLIC	TASK	user_proc_table[NR_PROCS] = {	
+	{Terminal, STACK_SIZE_TERMINAL, "Terminal"},
+	{TestB, STACK_SIZE_TESTB, "TestB"},
+	{TestC, STACK_SIZE_TESTC, "TestC"},
+	{TestD, STACK_SIZE_TESTD, "TestD"},
+	{TestE, STACK_SIZE_TESTE, "TestE"},
+	{calculator, STACK_SIZE_TESTE, "calculator"},
+	{goBangGameStart,STACK_SIZE_GOBANGGAMESTART,"GoBangGame"},
+	{appone,STACK_SIZE_TESTE,"appone"},
+	{apptwo,STACK_SIZE_TESTE,"apptwo"}};
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>步骤3</h3>
+						<p><label style="color:#FF7F50">proc.h</label> <label style="color:#9ACD32">添加STACK_SIZE</label></p>
+						<pre><code data-trim>
+#define STACK_SIZE_TOTAL
+	(STACK_SIZE_TTY + \
+	STACK_SIZE_TERMINAL + \
+	STACK_SIZE_TESTB + \
+	STACK_SIZE_TESTC + \
+	STACK_SIZE_TESTD + \
+	STACK_SIZE_TESTE + \
+	STACK_SIZE_TESTE + \
+	STACK_SIZE_TESTE + \
+	STACK_SIZE_TESTE + \
+	STACK_SIZE_GOBANGGAMESTART)
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>步骤4</h3>
+						<p><label style="color:#FF7F50">proto.h</label> <label style="color:#9ACD32">添加函数声明</label></p>
+						<pre><code data-trim>
+/* main.c */
+PUBLIC void Terminal();
+PUBLIC void TestB();
+PUBLIC void TestC();
+PUBLIC void TestD();
+PUBLIC void TestE();
+PUBLIC void clearScreen();
+PUBLIC void goBangGameStart();
+PUBLIC void calculator();
+PUBLIC void appone();
+PUBLIC void apptwo();
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>步骤5</h3>
+						<p><label style="color:#FF7F50">main.c</label> <label style="color:#9ACD32">给新进程赋予优先级并指定控制台</label></p>
+						<pre><code data-trim>
+/* 修改这里的优先级和ticks */
+proc_table[9].priority = 8;
+						</code></pre>
+						<pre><code data-trim>
+/* 指定控制台 */
+proc_table[9].nr_tty = 5;
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>步骤6</h3>
+						<p><label style="color:#FF7F50">global.h</label> <label style="color:#9ACD32">修改进程数</label></p>
+						<pre><code data-trim>
+EXTERN	t_8		gdt_ptr[9];	// 0~15:Limit  16~47:Base
+						</code></pre>
+						<pre><code data-trim>
+EXTERN	t_8		idt_ptr[9];	// 0~15:Limit  16~47:Base
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>步骤7</h3>
+						<p><label style="color:#FF7F50">const.h</label> <label style="color:#9ACD32">修改总控制台数量</label></p>
+						<pre><code data-trim>
+/* TTY */
+#define	NR_CONSOLES	6
+						</code></pre>
 					</section>
 				</section>
 
+				<section data-background="images/back-3.jpg">
+					<h2>谢谢！</h2>
+				</section>
 			</div>
-
 		</div>
 
 		<script src="reveal/lib/js/head.min.js"></script>
