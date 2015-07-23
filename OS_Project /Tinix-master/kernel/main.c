@@ -883,90 +883,83 @@ void readOneString(char* command,char* str)
 
 void dealWithCal(char* command)
 {
-	strlwr(command);
-	if (strcmp(command,"add")==0)
-	{
-		// clearScreen();
-		// sys_clear(tty_table);
-		disp_str("Enter the two numbers you want to ");
-		disp_color_str("add",0xB);
-		disp_str("with a space\n");
-		// printf("Enter the two numbers you want to add with a space:");
-				//scanf("%d%d",&x,&y);
-				openStartScanf(calculatorTty);
-				while (calculatorTty->startScanf) ;
-				int x,y;
-				readTwoNumbers(&x,&y);
-				int result = add_fun(x,y);
-				printf("result: %d\n", result);
-		return ;
+	// sys_clear(tty_table+2);
+	while(1){
+		strlwr(command);
+		if (strcmp(command,"add")==0)
+		{
+			// clearScreen();
+			// sys_clear(tty_table);
+			printf("Enter the two numbers you want to add with a space:");
+			//scanf("%d%d",&x,&y);
+			openStartScanf(calculatorTty);
+			while (calculatorTty->startScanf) ;
+			int x,y;
+			readTwoNumbers(&x,&y);
+			int result = add_fun(x,y);
+			printf("result: %d\n", result);
+			return ;
+		}
+		if (strcmp(command,"minus")==0)
+		{
+			printf("Enter the two numbers you want to minus with a space:");
+					//scanf("%d%d",&x,&y);
+					openStartScanf(calculatorTty);
+					while (calculatorTty->startScanf) ;
+					int x,y;
+					readTwoNumbers(&x,&y);
+					int result = sub_fun(x,y);
+					// printf("minus:x:%d\n", x);
+					printf("result: %d\n", result);
+			return ;
+		}
+		if (strcmp(command,"multiply")==0)
+		{
+			printf("Enter the two numbers you want to multiply with a space:");
+					//scanf("%d%d",&x,&y);
+					openStartScanf(calculatorTty);
+					while (calculatorTty->startScanf) ;
+					int x,y;
+					readTwoNumbers(&x,&y);
+					int result = mul_fun(x,y);
+					printf("result: %d\n", result);
+			return ;
+		}
+		if (strcmp(command,"divide")==0)
+		{
+			printf("Enter the two numbers you want to divide with a space:");
+					//scanf("%d%d",&x,&y);
+					openStartScanf(calculatorTty);
+					while (calculatorTty->startScanf) ;
+					int x,y;
+					readTwoNumbers(&x,&y);
+					int result = div_fun(x,y);
+					printf("result: %d\n", result);
+			return;
+		}
+		printf("can not find this command\n");
 	}
-	if (strcmp(command,"minus")==0)
-	{
-		disp_str("Enter the two numbers you want to ");
-		disp_color_str("minus",0xB);
-		disp_str("with a space\n");
-		// printf("Enter the two numbers you want to minus with a space:");
-				//scanf("%d%d",&x,&y);
-				openStartScanf(calculatorTty);
-				while (calculatorTty->startScanf) ;
-				int x,y;
-				readTwoNumbers(&x,&y);
-				int result = sub_fun(x,y);
-				// printf("minus:x:%d\n", x);
-				printf("result: %d\n", result);
-		return ;
-	}
-	if (strcmp(command,"multiply")==0)
-	{
-		disp_str("Enter the two numbers you want to ");
-		disp_color_str("multiply",0xB);
-		disp_str("with a space\n");
-		// printf("Enter the two numbers you want to multiply with a space:");
-				//scanf("%d%d",&x,&y);
-				openStartScanf(calculatorTty);
-				while (calculatorTty->startScanf) ;
-				int x,y;
-				readTwoNumbers(&x,&y);
-				int result = mul_fun(x,y);
-				printf("result: %d\n", result);
-		return ;
-	}
-	if (strcmp(command,"divide")==0)
-	{
-		disp_str("Enter the two numbers you want to ");
-		disp_color_str("divide",0xB);
-		disp_str("with a space\n");
-		// printf("Enter the two numbers you want to divide with a space:");
-				//scanf("%d%d",&x,&y);
-				openStartScanf(calculatorTty);
-				while (calculatorTty->startScanf) ;
-				int x,y;
-				readTwoNumbers(&x,&y);
-				int result = div_fun(x,y);
-				printf("result: %d\n", result);
-		return;
-	}
-
-	char str[10] = {'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
-	int number;
-	readOneStringAndOneNumber(command,str,& number);
 	
-	printf("can not find this command\n");
+
+	// char str[10] = {'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'};
+	// int number;
+	// readOneStringAndOneNumber(command,str,& number);
+	
+	
 }
 
 void calculator()
 {
-	printf("Hello\n");
-	printf("This is a calculator application, you can enter\n");
-	printf("add/minus/multiply/divide to calculate\n");
-	TTY *p_tty2=tty_table+2;
-	p_tty2->startScanf=0;
+	// calculatorTty
+	// TTY *p_tty2=tty_table+2;
+	// p_tty2->startScanf=0;
+	printf("Hello \n This is a calculator application, you can use it as follows!\n");
+	printf("Enter add/minus/multiply/divide to choose method\n");
 	while(1){
 		printf("\nchoose a method:  ");
-		openStartScanf(p_tty2);
-		while (p_tty2->startScanf) ;
-		dealWithCal(p_tty2->str);
+		openStartScanf(calculatorTty);
+		while (calculatorTty->startScanf) ;
+		dealWithCal(calculatorTty->str);
 	}
 }
 
