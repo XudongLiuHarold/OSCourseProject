@@ -173,6 +173,39 @@ PUBLIC void clock_handler(int irq)
 					<section data-background="images/back-3.jpg">
 						<h2>特色2：添加开机、关机动画</h2>
 					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>开机动画</h3>
+						<p><label style="color:#00FFFF">void</label> <label style="color:#9ACD32">DisPlayAnimation</label>() --- <label style="color:#FF7F50">main.c</label></p>
+						<p><small>1、添加颜色：</small>
+							<pre><code data-trim>disp_color_str("AA\n",0x33);</code></pre>
+						</p>
+						<p><small>2、延迟函数：</small>
+							<pre><code data-trim>
+PUBLIC void milli_delay(int milli_sec)
+{
+	int t = get_ticks();	
+	int i = 0;
+	while(i &lt; milli_sec*4000000)
+	{
+		i++;
+	}
+	return;
+}
+							</code></pre>
+						</p>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>关机动画</h3>
+						<p><label style="color:#00FFFF">void</label> <label style="color:#9ACD32">displayGoodBye</label>() --- <label style="color:#FF7F50">main.c</label></p>
+						<p><small>用while循环来处理关机：即使用户关机后不能再进行任何操作</small></p>
+						<pre><code data-trim>
+if (strcmp(command,"goodbye")==0)
+{
+	displayGoodBye();
+	while(1);
+}
+						</code></pre>
+					</section>
 				</section>
 				<section>
 					<section data-background="images/back-3.jpg">
