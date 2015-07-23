@@ -195,10 +195,11 @@ void help()
 	printf("      =====  Fn+F2        --------  show the process run   =====\n");
 	printf("      =====  Fn+F3        --------  calculator             =====\n");
 	printf("      =====  Fn+F4        --------  gobang game            =====\n");
-	printf("      =====  Fn+F5        --------  show the Calender      =====\n");
+	printf("      =====  Fn+F5        --------  calender               =====\n");
 	printf("      =====  kill 2~7     --------  kill the process 2~5   =====\n");
 	printf("      =====  start 2~7    --------  start the process 2~5  =====\n");
 	printf("      =====  show         --------  show the process state =====\n");
+	printf("      =====  goodbye      --------  shut down the computer =====\n");
 	printf("      ==========================================================\n");
 	printf("\n");
 }
