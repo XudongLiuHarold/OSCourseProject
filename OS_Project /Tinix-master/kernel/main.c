@@ -959,7 +959,7 @@ void calculator()
 	*=======================================================================*/
 	void appone()
 	{
-		printf("Hello \n");
+		printf("Hello \n This is a calendar application, you can use it as follows!\n");
 		calendar();
 		printf("byebye\n");
 	}
@@ -1104,7 +1104,7 @@ void calculator()
 
 void apptwo()
 {
-	printf("application two\n");
+	printf("Empty application\n");
 	while(1);
 }
 
