@@ -954,153 +954,148 @@ void calculator()
 	}
 }
 
-/*======================================================================*
-				app1
-*=======================================================================*/
-
-void appone()
-{
-	printf("Hello \n");
-	calendar();
-	printf("byebye\n");
-}
-
 	/*======================================================================*
-	Calender of July, 2015
+					app1
 	*=======================================================================*/
-TTY *calendarTty=tty_table+4;
-#define N 7
-		
-void readTwoNumberInCalendar(int* x,int* y)
-		{
-		int i=0;
-		*x=0;
-		*y=0;
-		for (i=0; i<calendarTty->len && calendarTty->str[i]==' '; i++);
-		for (; i<calendarTty->len && calendarTty->str[i]!=' ' && calendarTty->str[i]!='\n'; i++)
-		{
-		*x=(*x)*10+(int) calendarTty->str[i]-48;
-		}
-		for (i; i<calendarTty->len && calendarTty->str[i]==' '; i++);
-		for (; i<calendarTty->len && calendarTty->str[i]!=' ' && calendarTty->str[i]!='\n'; i++)
-		{
-		*y=(*y)*10+(int) calendarTty->str[i]-48;
-		}
-		}
-		
-	void calendar()
-		{
-		int year, month, x, y;
-		while (1)
-		{
-		while (1)
-		{
-		printf("Please input the year and month: ");
-		openStartScanf(calendarTty);
-		while (calendarTty->startScanf) ;
-		readTwoNumberInCalendar(&x,&y);
-		year=x;
-		month=y;
-		rili(year,month);
-		}
-		}
-		}
-	void print(int day,int tian)
-		{
-		int a[N][N],i,j,sum=1;
-		for(i=0,j=0;j<7;j++)
-		{
-		if(j<day)
-		printf(" ");
-		else
-		{
-		a[i][j]=sum;
-		printf(" %d",sum++);
-		}
-		}
-		printf("\n");
-		for(i=1;sum<=tian;i++)
-		{
-		for(j=0;sum<=tian&&j<7;j++)
-		{
-		a[i][j]=sum;
-		printf(" %d",sum++);
-		}
-		printf("\n");
-		}
-		}
+	void appone()
+	{
+		printf("Hello \n");
+		calendar();
+		printf("byebye\n");
+	}
+	TTY *calendarTty=tty_table+4;
+	#define N 7
+			
+	void readTwoNumberInCalendar(int* x,int* y)
+			{
+			int i=0;
+			*x=0;
+			*y=0;
+			for (i=0; i<calendarTty->len && calendarTty->str[i]==' '; i++);
+			for (; i<calendarTty->len && calendarTty->str[i]!=' ' && calendarTty->str[i]!='\n'; i++)
+			{
+			*x=(*x)*10+(int) calendarTty->str[i]-48;
+			}
+			for (i; i<calendarTty->len && calendarTty->str[i]==' '; i++);
+			for (; i<calendarTty->len && calendarTty->str[i]!=' ' && calendarTty->str[i]!='\n'; i++)
+			{
+			*y=(*y)*10+(int) calendarTty->str[i]-48;
+			}
+			}
+			
+		void calendar()
+			{
+			int year, month, x, y;
+			while (1)
+			{
+			while (1)
+			{
+			printf("Please input the year and month: ");
+			openStartScanf(calendarTty);
+			while (calendarTty->startScanf) ;
+			readTwoNumberInCalendar(&x,&y);
+			year=x;
+			month=y;
+			rili(year,month);
+			}
+			}
+			}
+		void print(int day,int tian)
+			{
+			int a[N][N],i,j,sum=1;
+			for(i=0,j=0;j<7;j++)
+			{
+			if(j<day)
+			printf(" ");
+			else
+			{
+			a[i][j]=sum;
+			printf(" %d",sum++);
+			}
+			}
+			printf("\n");
+			for(i=1;sum<=tian;i++)
+			{
+			for(j=0;sum<=tian&&j<7;j++)
+			{
+			a[i][j]=sum;
+			printf(" %d",sum++);
+			}
+			printf("\n");
+			}
+			}
 
 	int duo(int year)
-		{
-		if(year%4==0&&year%100!=0||year%400==0)
-		return 1;
-		else
-		return 0;
-		}
+			{
+			if(year%4==0&&year%100!=0||year%400==0)
+			return 1;
+			else
+			return 0;
+			}
 
 
-int rili(int year,int month)
-	{
-		int day,tian,preday,strday;
-		printf("***************%dmonth %dyear*********\n",month,year);
-		printf(" SUN MON TUE WED THUR FRI STAT\n");
-		switch(month)
+	int rili(int year,int month)
 		{
-		case 1:
-		tian=31;
-		preday=0;
-		break;
-		case 2:
-		tian=28;
-		preday=31;
-		break;
-		case 3:
-		tian=31;
-		preday=59;
-		break;
-		case 4:
-		tian=30;
-		preday=90;
-		break;
-		case 5:
-		tian=31;
-		preday=120;
-		break;
-		case 6:
-		tian=30;
-		preday=151;
-		break;
-		case 7:
-		tian=31;
-		preday=181;
-		break;
-		case 8:
-		tian=31;
-		preday=212;
-		break;
-		case 9:
-		tian=30;
-		preday=243;
-		break;
-		case 10:
-		tian=31;
-		preday=273;
-		break;
-		case 11:
-		tian=30;
-		preday=304;
-		break;
-		default:
-		tian=31;
-		preday=334;
+			int day,tian,preday,strday;
+			printf("***************%dmonth %dyear*********\n",month,year);
+			printf(" SUN MON TUE WED THUR FRI STAT\n");
+			switch(month)
+			{
+			case 1:
+			tian=31;
+			preday=0;
+			break;
+			case 2:
+			tian=28;
+			preday=31;
+			break;
+			case 3:
+			tian=31;
+			preday=59;
+			break;
+			case 4:
+			tian=30;
+			preday=90;
+			break;
+			case 5:
+			tian=31;
+			preday=120;
+			break;
+			case 6:
+			tian=30;
+			preday=151;
+			break;
+			case 7:
+			tian=31;
+			preday=181;
+			break;
+			case 8:
+			tian=31;
+			preday=212;
+			break;
+			case 9:
+			tian=30;
+			preday=243;
+			break;
+			case 10:
+			tian=31;
+			preday=273;
+			break;
+			case 11:
+			tian=30;
+			preday=304;
+			break;
+			default:
+			tian=31;
+			preday=334;
+			}
+			if(duo(year)&&month>2)
+			preday++;
+			if(duo(year)&&month==2)
+			tian=29;
+			day=((year-1)*365+(year-1)/4-(year-1)/100+(year-1)/400+preday+1)%7;
+			print(day,tian);
 		}
-		if(duo(year)&&month>2)
-		preday++;
-		if(duo(year)&&month==2)
-		tian=29;
-		day=((year-1)*365+(year-1)/4-(year-1)/100+(year-1)/400+preday+1)%7;
-		print(day,tian);
-	}
 
 
 /*======================================================================*
