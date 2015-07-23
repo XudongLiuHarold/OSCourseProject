@@ -401,7 +401,7 @@ void TestE()
 *=======================================================================*/
 
 char gameMap[15][15];
-TTY *goBangGameTty=tty_table+2;
+TTY *goBangGameTty=tty_table+3;
 
 void readTwoNumber(int* x,int* y)
 {
@@ -887,7 +887,10 @@ void dealWithCal(char* command)
 	{
 		// clearScreen();
 		// sys_clear(tty_table);
-		printf("Enter the two numbers you want to add with a space:");
+		disp_str("Enter the two numbers you want to ");
+		disp_color_str("add",0xB);
+		disp_str("with a space\n");
+		// printf("Enter the two numbers you want to add with a space:");
 				//scanf("%d%d",&x,&y);
 				openStartScanf(calculatorTty);
 				while (calculatorTty->startScanf) ;
@@ -899,7 +902,10 @@ void dealWithCal(char* command)
 	}
 	if (strcmp(command,"minus")==0)
 	{
-		printf("Enter the two numbers you want to minus with a space:");
+		disp_str("Enter the two numbers you want to ");
+		disp_color_str("minus",0xB);
+		disp_str("with a space\n");
+		// printf("Enter the two numbers you want to minus with a space:");
 				//scanf("%d%d",&x,&y);
 				openStartScanf(calculatorTty);
 				while (calculatorTty->startScanf) ;
@@ -912,7 +918,10 @@ void dealWithCal(char* command)
 	}
 	if (strcmp(command,"multiply")==0)
 	{
-		printf("Enter the two numbers you want to multiply with a space:");
+		disp_str("Enter the two numbers you want to ");
+		disp_color_str("multiply",0xB);
+		disp_str("with a space\n");
+		// printf("Enter the two numbers you want to multiply with a space:");
 				//scanf("%d%d",&x,&y);
 				openStartScanf(calculatorTty);
 				while (calculatorTty->startScanf) ;
@@ -924,7 +933,10 @@ void dealWithCal(char* command)
 	}
 	if (strcmp(command,"divide")==0)
 	{
-		printf("Enter the two numbers you want to divide with a space:");
+		disp_str("Enter the two numbers you want to ");
+		disp_color_str("divide",0xB);
+		disp_str("with a space\n");
+		// printf("Enter the two numbers you want to divide with a space:");
 				//scanf("%d%d",&x,&y);
 				openStartScanf(calculatorTty);
 				while (calculatorTty->startScanf) ;
@@ -944,6 +956,9 @@ void dealWithCal(char* command)
 
 void calculator()
 {
+	printf("Hello\n");
+	printf("This is a calculator application, you can enter\n");
+	printf("add/minus/multiply/divide to calculate\n");
 	TTY *p_tty2=tty_table+2;
 	p_tty2->startScanf=0;
 	while(1){
@@ -967,80 +982,87 @@ void calculator()
 	#define N 7
 			
 	void readTwoNumberInCalendar(int* x,int* y)
-			{
-			int i=0;
-			*x=0;
-			*y=0;
-			for (i=0; i<calendarTty->len && calendarTty->str[i]==' '; i++);
-			for (; i<calendarTty->len && calendarTty->str[i]!=' ' && calendarTty->str[i]!='\n'; i++)
-			{
+	{
+		int i=0;
+		*x=0;
+		*y=0;
+		for (i=0; i<calendarTty->len && calendarTty->str[i]==' '; i++);
+		for (; i<calendarTty->len && calendarTty->str[i]!=' ' && calendarTty->str[i]!='\n'; i++)
+		{
 			*x=(*x)*10+(int) calendarTty->str[i]-48;
-			}
-			for (i; i<calendarTty->len && calendarTty->str[i]==' '; i++);
-			for (; i<calendarTty->len && calendarTty->str[i]!=' ' && calendarTty->str[i]!='\n'; i++)
-			{
+		}
+		for (i; i<calendarTty->len && calendarTty->str[i]==' '; i++);
+		for (; i<calendarTty->len && calendarTty->str[i]!=' ' && calendarTty->str[i]!='\n'; i++)
+		{
 			*y=(*y)*10+(int) calendarTty->str[i]-48;
-			}
-			}
+		}
+	}
 			
-		void calendar()
-			{
-			int year, month, x, y;
+	void calendar()
+	{
+		int year, month, x, y;
+		while (1)
+		{
 			while (1)
 			{
-			while (1)
-			{
-			printf("Please input the year and month: ");
-			openStartScanf(calendarTty);
-			while (calendarTty->startScanf) ;
-			readTwoNumberInCalendar(&x,&y);
-			year=x;
-			month=y;
-			rili(year,month);
+				printf("Please input the year and month: ");
+				openStartScanf(calendarTty);
+				while (calendarTty->startScanf) ;
+				readTwoNumberInCalendar(&x,&y);
+				year=x;
+				month=y;
+				rili(year,month);
 			}
-			}
-			}
-		void print(int day,int tian)
-			{
-			int a[N][N],i,j,sum=1;
-			for(i=0,j=0;j<7;j++)
-			{
+		}
+	}
+	void print(int day,int tian)
+	{
+		int a[N][N],i,j,sum=1;
+		for(i=0,j=0;j<7;j++)
+		{
 			if(j<day)
-			printf(" ");
+				printf("    ");
 			else
 			{
-			a[i][j]=sum;
-			printf(" %d",sum++);
+				a[i][j]=sum;
+				printf("   %d",sum++);
+				// printf("aaa\n");
 			}
-			}
-			printf("\n");
-			for(i=1;sum<=tian;i++)
-			{
+		}
+		printf("\n");
+		for(i=1;sum<=tian;i++)
+		{
 			for(j=0;sum<=tian&&j<7;j++)
 			{
-			a[i][j]=sum;
-			printf(" %d",sum++);
+				a[i][j]=sum;
+				if (sum<10)
+				{
+					printf("   %d", sum++);
+				}
+				else{
+					printf("  %d",sum++);
+				}
 			}
 			printf("\n");
-			}
-			}
+		}
+	}
 
 	int duo(int year)
-			{
-			if(year%4==0&&year%100!=0||year%400==0)
+	{
+		if(year%4==0&&year%100!=0||year%400==0)
 			return 1;
-			else
+		else
 			return 0;
-			}
+	}
 
 
 	int rili(int year,int month)
+	{
+		int day,tian,preday,strday;
+		printf("***************%dmonth %dyear*********\n",month,year);
+		printf(" SUN MON TUE WED THU FRI SAT\n");
+		switch(month)
 		{
-			int day,tian,preday,strday;
-			printf("***************%dmonth %dyear*********\n",month,year);
-			printf(" SUN MON TUE WED THUR FRI STAT\n");
-			switch(month)
-			{
 			case 1:
 			tian=31;
 			preday=0;
@@ -1088,14 +1110,14 @@ void calculator()
 			default:
 			tian=31;
 			preday=334;
-			}
-			if(duo(year)&&month>2)
-			preday++;
-			if(duo(year)&&month==2)
-			tian=29;
-			day=((year-1)*365+(year-1)/4-(year-1)/100+(year-1)/400+preday+1)%7;
-			print(day,tian);
 		}
+		if(duo(year)&&month>2)
+		preday++;
+		if(duo(year)&&month==2)
+		tian=29;
+		day=((year-1)*365+(year-1)/4-(year-1)/100+(year-1)/400+preday+1)%7;
+		print(day,tian);
+	}
 
 
 /*======================================================================*
