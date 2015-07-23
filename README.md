@@ -10,7 +10,7 @@ For this summer's course project
 * 在terminal里面运行下面的命令完成配置，如果是中国IP可能需要切换Ubuntu的源（163的源速度较快）.
 ```bash
 $ sudo  apt-get update 
-$ sudo	apt-get	install	build-essen8al	
+$ sudo	apt-get	install	build-essential	
 $ sudo	apt-get	install	xorg-dev										
 $ sudo	apt-get	install	bison	
 $ sudo	apt-get	install	libgtk2.0-dev
@@ -43,6 +43,5 @@ $ 回车再输入 c 进入
 感谢两位队友的辛苦付出，同时也受到了一些同学、学长的帮助，在此一并感谢。🙏
 
 =======
-Thx to all.
-=====
+Thx to all.<br/>
 Liu © 2015.7.23
