@@ -1,9 +1,15 @@
 # OSCourseProject
 For this summer's course project
 
+###Members:
+* 1352834 安哲宏 42028701 <br/>
+* 1352918 刘旭东 42028701 <br/>
+* 1353010 薛梦迪 42028702 <br/>
+
+====
 ###项目环境
-* Linux Ubuntu 14.0.2
-* Bochs
+* Linux Ubuntu 14.0.4 (X86)
+* Bochs (2.6.7)
 
 ###使用方法
 * 确保你已经装了<a href="http://www.ubuntu.com/download/desktop">Ubuntu</a> 和 <a href="http://sourceforge.net/projects/bochs/">Bochs</a>
@@ -25,9 +31,6 @@ $ sudo make image
 $ bochs -f bochsrc.bxrc
 $ 回车再输入 c 进入
 ```
-
-###Members:
-这是小学期的操作系统项目。和安哲宏以及薛梦迪合作完成。
 
 =====
 ###项目分工
