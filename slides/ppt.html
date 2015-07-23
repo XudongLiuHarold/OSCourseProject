@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>操作系统课程设计</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="reveal/css/reveal.css">
+		<link rel="stylesheet" href="reveal/css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal/css/print/pdf.css' : 'reveal/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background="images/back-2.jpg">
+					<h1>操作系统课程设计</h1>
+					<p style="font-size:22pt;"></br>
+						<a href="https://github.com/anzhehong">安哲宏</a> (1352834)</br>
+						<a href="https://github.com/xdliu002">刘旭东</a> (1352918)</br>
+						<a href="https://github.com/MandyXue">薛梦迪</a> (1353010)
+					</p>
+				</section>
+
+				<section data-background="images/back-3.jpg">
+					<h2>项目简介</h2>
+					<p></br>
+						<small>此项目开发是基于《一个操作系统的实现》中的源代码示例进行改编而成。</small></br>
+						<small>其中包括了底层硬件设置、进程调度、内存管理等模块。</small></br>
+						<small>我们的改编主要基于进程调度算法、开机动画和增加用户级进程三个方面。</small>
+					</p>
+				</section>
+
+				<section>
+					<section data-background="images/back-3.jpg">
+						<h2>项目分工</h2>
+						<p></br>
+							<small>刘旭东：主要负责修改进程调度算法</small></br>
+							<small>安哲宏：主要负责开关机动画的添加</small></br>
+							<small>薛梦迪：增加用户级应用，编写文档</small>
+						</p>
+					</section>
+					<section data-background="images/back-3.jpg">
+						<h3>git记录</h3>
+						<img src="images/back-1.jpg">
+					</section>
+					<section data-background="images/back-3.jpg">
+						<h3>git记录</h3>
+						<img src="images/back-1.jpg">
+					</section>
+				</section>
+
+				<section>
+					<section data-background="images/back-3.jpg">
+						<h2>特色1：进程调度算法的修改</h2>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>修改后的进程调度算法</h3>
+						<p>PUBLIC <label style="color:#00FFFF">void</label> <label style="color:#9ACD32">schedule</label>() --- <label style="color:#FF7F50">proc.c</label></p>
+						<pre><code data-trim>
+//第一个队列
+if (firstLen-firstHead>0)
+{		
+	p_proc_ready=firstQueue[firstHead];
+	greatest_priority=p_proc_ready->ticks;
+	break;
+}
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>修改后的进程调度算法</h3>
+						<p>PUBLIC <label style="color:#00FFFF">void</label> <label style="color:#9ACD32">schedule</label>() --- <label style="color:#FF7F50">proc.c</label></p>
+						<pre><code data-trim>
+//第二个队列
+else if (secondLen+firstLen - firstHead >0)
+{
+	for (i=0; i &lt; secondLen; i++)		//the second queue use the priority algorithm
+	{
+		p=secondQueue[i];
+		if (p->state!=kRUNNABLE || p->ticks==0) continue;
+		if (p->ticks > greatest_priority) 
+		{
+			greatest_priority = p->ticks;
+			p_proc_ready = p;
+		}
+	}		
+}
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>修改后的进程调度算法</h3>
+						<p>PUBLIC <label style="color:#00FFFF">void</label> <label style="color:#9ACD32">schedule</label>() --- <label style="color:#FF7F50">proc.c</label></p>
+						<pre><code data-trim>
+//第三个队列
+else{
+	for (i=0; i &lt; thirdLen; i++)		//the third queue still use the priority algorithm
+	{
+		p=thirdQueue[i];
+		if (p->state!=kRUNNABLE || p->ticks==0) continue;
+		if (p->ticks > greatest_priority) 
+		{
+			greatest_priority = p->ticks;
+			p_proc_ready = p;
+		}
+	}	
+}
+if (!greatest_priority)	initializeAllPro();
+						</code></pre>
+					</section>
+					<section data-background="images/back-4.jpg">
+						<h3>修改后的进程调度算法</h3>
+						<p>PUBLIC <label style="color:#00FFFF">void</label> <label style="color:#9ACD32">clock_handler</label>() --- <label style="color:#FF7F50">clock.c</label></p>
+						<pre><code data-trim>
+PUBLIC void clock_handler(int irq)
+{
+	ticks++;
+	p_proc_ready->ticks--;
+
+	if (k_reenter != 0) {
+		return;
+	}
+	if (p_proc_ready->ticks > 0) {
+		return;
+	}
+	if (p_proc_ready->whichQueue==1) //如果是第一个队列的，降到第二个队列
+	{	
+		p_proc_ready->whichQueue=2;
+		p_proc_ready->ticks=2;
+		secondQueue[secondLen]=p_proc_ready;
+		secondLen++;
+		firstHead++;
+	}
+	else if(p_proc_ready->whichQueue ==2) //否则是第二个队列的
+	{
+		p_proc_ready->whichQueue=3;
+		p_proc_ready->ticks=3;
+		thirdQueue[thirdLen] = p_proc_ready;
+		thirdLen++;
+		firstHead++;
+	}
+	else{}
+	p_proc_ready->state=kRUNNABLE;
+	schedule();
+}
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<section data-background="images/back-3.jpg">
+						<h2>特色2：添加开机、关机动画</h2>
+					</section>
+				</section>
+				<section>
+					<section data-background="images/back-3.jpg">
+						<h2>特色3：添加系统级进程</h2>
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="reveal/lib/js/head.min.js"></script>
+		<script src="reveal/js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'reveal/plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+	</body>
+</html>
