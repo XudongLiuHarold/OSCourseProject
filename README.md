@@ -1,6 +1,31 @@
 # OSCourseProject
 For this summer's course project
 
+###项目环境
+* Linux Ubuntu 14.0.2
+* Bochs
+
+###使用方法
+* 确保你已经装了<a href="http://www.ubuntu.com/download/desktop">Ubuntu</a> 和 <a href="http://sourceforge.net/projects/bochs/">Bochs</a>
+* 在terminal里面运行下面的命令完成配置，如果是中国IP可能需要切换Ubuntu的源（163的源速度较快）.
+```bash
+$ sudo  apt-get update 
+$ sudo	apt-get	install	build-essential	
+$ sudo	apt-get	install	xorg-dev										
+$ sudo	apt-get	install	bison	
+$ sudo	apt-get	install	libgtk2.0-dev
+$ sudo	apt-get	install	nasm
+$ sudo	apt-get	install	vgabios
+```
+* 将项目clone到本地,首先打开到目标文件夹下,然后运行:
+```bash
+$ git clone https://github.com/xdliu002/OSCourseProject.git
+$ cd OSCourseProject /Tinix-master
+$ sudo make image
+$ bochs -f bochsrc.bxrc
+$ 回车再输入 c 进入
+```
+
 ###Members:
 这是小学期的操作系统项目。和安哲宏以及薛梦迪合作完成。
 
@@ -18,6 +43,5 @@ For this summer's course project
 感谢两位队友的辛苦付出，同时也受到了一些同学、学长的帮助，在此一并感谢。🙏
 
 =======
-Thx to all.
-=====
+Thx to all.<br/>
 Liu © 2015.7.23
